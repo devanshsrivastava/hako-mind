@@ -14,6 +14,22 @@ const EXAMPLES = [
   'Newsletter for indie hackers',
 ];
 
+interface Section {
+  key: string;
+  icon: string;
+  title: string;
+  type: string;
+  content: string;
+}
+
+interface Score {
+  label: string;
+  score: string;
+  pct: number;
+  color: string;
+  desc: string;
+}
+
 export default function Home() {
   const [idea, setIdea] = useState('');
   const [result, setResult] = useState('');
@@ -39,13 +55,7 @@ export default function Home() {
     }
   }
 
-  function getVerdictClass(content: string) {
-    if (content.includes('🟢')) return styles.verdictGreen;
-    if (content.includes('🟡')) return styles.verdictYellow;
-    return styles.verdictRed;
-  }
-
-  function parseScores(content: string) {
+  function parseScores(content: string): Score[] {
     return content.split('\n').filter(l => l.trim()).map(line => {
       const match = line.match(/(.+?):\s*(\d+)\/10\s*[—-]\s*(.+)/);
       if (!match) return null;
@@ -53,10 +63,10 @@ export default function Home() {
       const pct = (parseInt(score) / 10) * 100;
       const color = pct >= 70 ? '#4ade80' : pct >= 50 ? '#f59e0b' : '#f87171';
       return { label: label.trim(), score, pct, color, desc };
-    }).filter(Boolean);
+    }).filter(Boolean) as Score[];
   }
 
-  function parseSections(raw: string) {
+  function parseSections(raw: string): Section[] {
     const sections = [
       { key: 'VERDICT', icon: '🎯', title: 'Verdict', type: 'verdict' },
       { key: 'IDEA SCORE', icon: '📊', title: 'Idea Score', type: 'score' },
@@ -75,7 +85,7 @@ export default function Home() {
       const nextPositions = keys.slice(i + 1).map(k => raw.indexOf(k)).filter(p => p > start);
       const end = nextPositions.length ? Math.min(...nextPositions) : raw.length;
       return { ...sec, content: raw.slice(contentStart, end).trim() };
-    }).filter(Boolean);
+    }).filter(Boolean) as Section[];
   }
 
   async function handleGenerate() {
@@ -120,7 +130,6 @@ export default function Home() {
 
   return (
     <>
-
       {/* Background blobs */}
       <div style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 0, overflow: 'hidden' }}>
         {[
@@ -153,13 +162,13 @@ export default function Home() {
           </div>
           <h1 style={{ fontFamily: 'Syne, sans-serif', fontSize: 'clamp(42px,8vw,72px)', fontWeight: 800, lineHeight: 1, letterSpacing: -2, marginBottom: 16 }}>
             <span style={{ background: 'linear-gradient(135deg,#ff6b6b,#f59e0b)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Hako</span>
-            <span style={{ color: '#fff' }}> </span>
+            {' '}
             <span style={{ background: 'linear-gradient(135deg,#a855f7,#06b6d4)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Mind</span>
           </h1>
-          <p style={{ fontSize: 18, color: 'rgba(255,255,255,0.75)', maxWidth: 500, margin: '0 auto 10px', lineHeight: 1.6, fontFamily: 'Syne, sans-serif', fontWeight: 700, letterSpacing: -0.3 }}>
+          <p style={{ fontSize: 18, color: 'rgba(255,255,255,0.75)', maxWidth: 500, margin: '0 auto 6px', lineHeight: 1.6, fontFamily: 'Syne, sans-serif', fontWeight: 700, letterSpacing: -0.3 }}>
             Unbox your box of ideas,
           </p>
-          <p style={{ fontSize: 18, color: 'rgba(255,255,255,0.75)', maxWidth: 500, margin: '0 auto', lineHeight: 1.6, fontFamily: 'Syne, sans-serif', fontWeight: 700, letterSpacing: -0.3 }}>
+          <p style={{ fontSize: 18, color: 'rgba(255,255,255,0.75)', maxWidth: 500, margin: '0 auto 0', lineHeight: 1.6, fontFamily: 'Syne, sans-serif', fontWeight: 700, letterSpacing: -0.3 }}>
             turn them into AI-powered products.
           </p>
         </header>
@@ -255,7 +264,7 @@ export default function Home() {
                             {s.score}<span style={{ fontSize: 14, opacity: 0.5 }}>/10</span>
                           </div>
                           <div style={{ height: 3, background: 'rgba(255,255,255,0.1)', borderRadius: 2, marginTop: 6, overflow: 'hidden' }}>
-                            <div style={{ height: '100%', width: `${s.pct}%`, background: s.color, borderRadius: 2, animation: 'barFill .8s ease both', '--target-width': `${s.pct}%` }} />
+                            <div style={{ height: '100%', width: `${s.pct}%`, background: s.color, borderRadius: 2, animation: 'barFill .8s ease both' } as React.CSSProperties} />
                           </div>
                         </div>
                       ))}
