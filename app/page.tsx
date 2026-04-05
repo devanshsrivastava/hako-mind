@@ -39,13 +39,13 @@ export default function Home() {
     }
   }
 
-  function getVerdictClass(content) {
+  function getVerdictClass(content: string) {
     if (content.includes('🟢')) return styles.verdictGreen;
     if (content.includes('🟡')) return styles.verdictYellow;
     return styles.verdictRed;
   }
 
-  function parseScores(content) {
+  function parseScores(content: string) {
     return content.split('\n').filter(l => l.trim()).map(line => {
       const match = line.match(/(.+?):\s*(\d+)\/10\s*[—-]\s*(.+)/);
       if (!match) return null;
@@ -56,7 +56,7 @@ export default function Home() {
     }).filter(Boolean);
   }
 
-  function parseSections(raw) {
+  function parseSections(raw: string) {
     const sections = [
       { key: 'VERDICT', icon: '🎯', title: 'Verdict', type: 'verdict' },
       { key: 'IDEA SCORE', icon: '📊', title: 'Idea Score', type: 'score' },
