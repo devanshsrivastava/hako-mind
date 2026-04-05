@@ -1,0 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0a0a0f; color: #fff; font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
+
+@keyframes drift { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(30px,20px) scale(1.1); } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes bounce { 0%,80%,100% { transform: scale(0.8); opacity: 0.5; } 40% { transform: scale(1.2); opacity: 1; } }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+@keyframes confettiFall { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
+@keyframes barFill { from { width: 0%; } to { width: var(--target-width); } }
