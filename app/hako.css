@@ -1,11 +1,146 @@
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;700&display=swap');
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { background: #0a0a0f; color: #fff; font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-@keyframes drift { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(30px,20px) scale(1.1); } }
-@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes bounce { 0%,80%,100% { transform: scale(0.8); opacity: 0.5; } 40% { transform: scale(1.2); opacity: 1; } }
-@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
-@keyframes confettiFall { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
-@keyframes barFill { from { width: 0%; } to { width: var(--target-width); } }
+body {
+  background: #ffffff;
+  color: #0a0a0f;
+  font-family: 'DM Sans', sans-serif;
+  overflow-x: hidden;
+}
+
+/* Keyframe animations */
+@keyframes drift {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(30px, 20px) scale(1.1); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes bounce {
+  0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
+  40% { transform: scale(1.2); opacity: 1; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+@keyframes confettiFall {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+}
+
+@keyframes barFill {
+  from { width: 0%; }
+  to { width: var(--target-width); }
+}
+
+/* Background blobs — softer on white */
+.blob {
+  opacity: 0.15 !important;
+}
+
+/* Typography — black and bold */
+h1, h2, h3, h4, h5, h6 {
+  color: #0a0a0f;
+  font-weight: 800;
+}
+
+p, span, div, label {
+  color: #0a0a0f;
+  font-weight: 500;
+}
+
+/* Badge */
+.badge-text {
+  color: #0a0a0f !important;
+}
+
+/* Input card */
+textarea {
+  background: #f5f5f5 !important;
+  border: 1.5px solid #e0e0e0 !important;
+  color: #0a0a0f !important;
+  font-weight: 500;
+}
+
+textarea::placeholder {
+  color: #999999 !important;
+  font-weight: 400;
+}
+
+textarea:focus {
+  border-color: #a855f7 !important;
+  background: #fafafa !important;
+}
+
+/* Example chips */
+.chip {
+  color: #333333 !important;
+  background: #f0f0f0 !important;
+  border: 1px solid #e0e0e0 !important;
+  font-weight: 500;
+}
+
+.chip:hover {
+  background: rgba(168, 85, 247, 0.1) !important;
+  border-color: rgba(168, 85, 247, 0.4) !important;
+  color: #a855f7 !important;
+}
+
+/* Input card background */
+.input-card {
+  background: #f9f9f9 !important;
+  border: 1px solid #e8e8e8 !important;
+}
+
+/* Section cards */
+.section-card {
+  background: #f9f9f9 !important;
+  border: 1px solid #ebebeb !important;
+}
+
+.section-title {
+  color: #555555 !important;
+  font-weight: 700 !important;
+}
+
+.section-body {
+  color: #0a0a0f !important;
+  font-weight: 500 !important;
+  line-height: 1.8;
+}
+
+/* Score cards */
+.score-label {
+  color: #666666 !important;
+  font-weight: 600 !important;
+}
+
+/* Loading text */
+.loading-text {
+  color: #555555 !important;
+  font-weight: 500;
+}
+
+/* Reset button */
+.reset-btn {
+  color: #444444 !important;
+  background: #f0f0f0 !important;
+  border: 1px solid #e0e0e0 !important;
+  font-weight: 600 !important;
+}
+
+.reset-btn:hover {
+  background: #e8e8e8 !important;
+  color: #0a0a0f !important;
+}
