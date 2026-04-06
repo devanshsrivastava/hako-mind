@@ -1,5 +1,7 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { supabase } from '../lib/supabase';
+import { getOrCreateUsername } from '../lib/username';
 
 const LOADING_MESSAGES = [
   'Unboxing your idea...',
@@ -47,8 +49,15 @@ export default function Home() {
   const [showResult, setShowResult] = useState(false);
   const [visibleSections, setVisibleSections] = useState<number>(0);
   const [copied, setCopied] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [username, setUsername] = useState('');
 
   const hint = getIdeaHint(idea);
+
+  useEffect(() => {
+    setUsername(getOrCreateUsername());
+  }, []);
 
   function launchConfetti() {
     const colors = ['#ff6b6b', '#a855f7', '#06b6d4', '#f59e0b', '#4ade80', '#f472b6'];
@@ -107,20 +116,62 @@ export default function Home() {
     }).filter(Boolean) as Section[];
   }
 
-  function getScoreSummary(sections: Section[]): string {
+  function getVerdictEmoji(sections: Section[]): string {
+    const verdict = sections.find(s => s.type === 'verdict');
+    if (!verdict) return '';
+    if (verdict.content.includes('🟢')) return '🟢';
+    if (verdict.content.includes('🟡')) return '🟡';
+    return '🔴';
+  }
+
+  function getAvgScore(sections: Section[]): number {
     const scoreSection = sections.find(s => s.type === 'score');
-    if (!scoreSection) return '';
+    if (!scoreSection) return 0;
     const scores = parseScores(scoreSection.content);
-    if (!scores.length) return '';
-    const avg = Math.round(scores.reduce((sum, s) => sum + parseInt(s.score), 0) / scores.length);
-    return `${avg}/10`;
+    if (!scores.length) return 0;
+    return Math.round(scores.reduce((sum, s) => sum + parseInt(s.score), 0) / scores.length);
+  }
+
+  async function handleSave(sections: Section[]) {
+    if (saving || saved) return;
+    setSaving(true);
+
+    try {
+      // Ensure profile exists
+      const { data: existing } = await supabase
+        .from('profiles')
+        .select('username')
+        .eq('username', username)
+        .single();
+
+      if (!existing) {
+        await supabase.from('profiles').insert({ username });
+      }
+
+      // Save the idea
+      const { error } = await supabase.from('ideas').insert({
+        username,
+        idea_text: idea,
+        result,
+        is_public: true,
+        verdict: getVerdictEmoji(sections),
+        avg_score: getAvgScore(sections),
+      });
+
+      if (error) throw error;
+      setSaved(true);
+    } catch (e) {
+      console.error('Save error:', e);
+      alert('Something went wrong saving. Please try again.');
+    } finally {
+      setSaving(false);
+    }
   }
 
   function handleShare(sections: Section[]) {
-    const verdict = sections.find(s => s.type === 'verdict');
-    const emoji = verdict?.content.includes('🟢') ? '🟢' : verdict?.content.includes('🟡') ? '🟡' : '🔴';
-    const score = getScoreSummary(sections);
-    const tweet = `Just validated my idea on Hako Mind 📦\n\nVerdict: ${emoji}\nAvg score: ${score}\n\nUnbox your ideas free → hakomind.vercel.app`;
+    const emoji = getVerdictEmoji(sections);
+    const score = getAvgScore(sections);
+    const tweet = `Just validated my idea on Hako Mind 📦\n\nVerdict: ${emoji}\nAvg score: ${score}/10\n\nUnbox your ideas free → hakomind.vercel.app`;
     navigator.clipboard.writeText(tweet).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2500);
@@ -133,6 +184,7 @@ export default function Home() {
     setShowResult(false);
     setResult('');
     setVisibleSections(0);
+    setSaved(false);
 
     let msgIdx = 0;
     const interval = setInterval(() => {
@@ -170,6 +222,7 @@ export default function Home() {
     setIdea('');
     setVisibleSections(0);
     setCopied(false);
+    setSaved(false);
   }
 
   const sections = result ? parseSections(result) : [];
@@ -197,14 +250,25 @@ export default function Home() {
 
         {/* Header */}
         <header style={{ textAlign: 'center', marginBottom: 56, animation: 'fadeUp .7s ease both' }}>
-          <div style={{
-            display: 'inline-flex', alignItems: 'center', gap: 6,
-            background: 'rgba(0,0,0,0.06)', border: '1px solid rgba(0,0,0,0.12)',
-            borderRadius: 100, padding: '6px 14px', fontSize: 12, fontWeight: 600,
-            color: '#444444', marginBottom: 20,
-          }}>
-            <span style={{ width: 6, height: 6, background: '#4ade80', borderRadius: '50%', display: 'inline-block', animation: 'pulse 2s infinite' }} />
-            ✦ idea validator
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 12, marginBottom: 20 }}>
+            <div style={{
+              display: 'inline-flex', alignItems: 'center', gap: 6,
+              background: 'rgba(0,0,0,0.06)', border: '1px solid rgba(0,0,0,0.12)',
+              borderRadius: 100, padding: '6px 14px', fontSize: 12, fontWeight: 600, color: '#444444',
+            }}>
+              <span style={{ width: 6, height: 6, background: '#4ade80', borderRadius: '50%', display: 'inline-block', animation: 'pulse 2s infinite' }} />
+              ✦ idea validator
+            </div>
+            {username && (
+              <a href={`/profile/${username}`} style={{
+                display: 'inline-flex', alignItems: 'center', gap: 6,
+                background: 'rgba(168,85,247,0.08)', border: '1px solid rgba(168,85,247,0.2)',
+                borderRadius: 100, padding: '6px 14px', fontSize: 12, fontWeight: 600,
+                color: '#a855f7', textDecoration: 'none',
+              }}>
+                👤 {username}
+              </a>
+            )}
           </div>
           <h1 style={{ fontFamily: 'Syne, sans-serif', fontSize: 'clamp(42px,8vw,72px)', fontWeight: 800, lineHeight: 1, letterSpacing: -2, marginBottom: 20 }}>
             <span style={{ background: 'linear-gradient(135deg,#ff6b6b,#f59e0b)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Hako</span>
@@ -249,9 +313,7 @@ export default function Home() {
                 </span>
               ) : <span />}
               {idea.length > 0 && (
-                <span style={{ fontSize: 12, color: '#aaaaaa', fontWeight: 500 }}>
-                  {idea.length} chars
-                </span>
+                <span style={{ fontSize: 12, color: '#aaaaaa', fontWeight: 500 }}>{idea.length} chars</span>
               )}
             </div>
 
@@ -299,17 +361,15 @@ export default function Home() {
           </div>
         )}
 
-        {/* Result — sections reveal one by one */}
+        {/* Result */}
         {showResult && (
           <div>
             {sections.map((sec, i) => {
               if (i >= visibleSections) return null;
 
               const sectionStyle: React.CSSProperties = {
-                opacity: 1,
-                transform: 'translateY(0)',
-                transition: 'opacity 0.4s ease, transform 0.4s ease',
                 marginBottom: 16,
+                animation: 'fadeUp 0.4s ease both',
               };
 
               if (sec.type === 'verdict') {
@@ -319,7 +379,7 @@ export default function Home() {
                     ? { bg: 'linear-gradient(135deg,rgba(245,158,11,0.12),rgba(251,191,36,0.08))', border: 'rgba(217,119,6,0.3)' }
                     : { bg: 'linear-gradient(135deg,rgba(239,68,68,0.12),rgba(248,113,113,0.08))', border: 'rgba(220,38,38,0.3)' };
                 return (
-                  <div key={i} style={{ ...sectionStyle, background: verdictColor.bg, border: `1.5px solid ${verdictColor.border}`, borderRadius: 20, padding: '24px 28px', boxShadow: '0 2px 12px rgba(0,0,0,0.05)', animation: 'fadeUp 0.4s ease both' }}>
+                  <div key={i} style={{ ...sectionStyle, background: verdictColor.bg, border: `1.5px solid ${verdictColor.border}`, borderRadius: 20, padding: '24px 28px', boxShadow: '0 2px 12px rgba(0,0,0,0.05)' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
                       <span style={{ fontSize: 20 }}>{sec.icon}</span>
                       <span style={{ fontFamily: 'Syne, sans-serif', fontSize: 13, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.5, color: '#555555' }}>{sec.title}</span>
@@ -332,7 +392,7 @@ export default function Home() {
               if (sec.type === 'score') {
                 const scores = parseScores(sec.content);
                 return (
-                  <div key={i} style={{ ...sectionStyle, background: 'rgba(255,255,255,0.75)', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 20, padding: '24px 28px', boxShadow: '0 2px 12px rgba(0,0,0,0.05)', animation: 'fadeUp 0.4s ease both' }}>
+                  <div key={i} style={{ ...sectionStyle, background: 'rgba(255,255,255,0.75)', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 20, padding: '24px 28px', boxShadow: '0 2px 12px rgba(0,0,0,0.05)' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
                       <span style={{ fontSize: 20 }}>{sec.icon}</span>
                       <span style={{ fontFamily: 'Syne, sans-serif', fontSize: 13, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.5, color: '#555555' }}>{sec.title}</span>
@@ -355,7 +415,7 @@ export default function Home() {
               }
 
               return (
-                <div key={i} style={{ ...sectionStyle, background: 'rgba(255,255,255,0.75)', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 20, padding: '24px 28px', boxShadow: '0 2px 12px rgba(0,0,0,0.05)', animation: 'fadeUp 0.4s ease both' }}>
+                <div key={i} style={{ ...sectionStyle, background: 'rgba(255,255,255,0.75)', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 20, padding: '24px 28px', boxShadow: '0 2px 12px rgba(0,0,0,0.05)' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
                     <span style={{ fontSize: 20 }}>{sec.icon}</span>
                     <span style={{ fontFamily: 'Syne, sans-serif', fontSize: 13, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.5, color: '#555555' }}>{sec.title}</span>
@@ -365,26 +425,43 @@ export default function Home() {
               );
             })}
 
-            {/* Action buttons — appear after all sections revealed */}
+            {/* Action buttons */}
             {visibleSections >= sections.length && sections.length > 0 && (
-              <div style={{ display: 'flex', gap: 12, marginTop: 8, animation: 'fadeUp .4s ease both' }}>
-                <button onClick={() => handleShare(sections)} style={{
-                  flex: 1, padding: 14,
-                  background: copied ? '#16a34a' : 'linear-gradient(135deg,#a855f7,#06b6d4)',
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 8, animation: 'fadeUp .4s ease both' }}>
+
+                {/* Save button */}
+                <button onClick={() => handleSave(sections)} disabled={saving || saved} style={{
+                  width: '100%', padding: 16,
+                  background: saved ? '#16a34a' : saving ? '#e5e5e5' : 'linear-gradient(135deg,#f59e0b,#ff6b6b)',
                   border: 'none', borderRadius: 14, fontFamily: 'Syne, sans-serif',
-                  fontSize: 15, fontWeight: 700, color: '#fff', cursor: 'pointer',
+                  fontSize: 16, fontWeight: 700,
+                  color: saved || saving ? (saved ? '#fff' : '#aaaaaa') : '#fff',
+                  cursor: saved || saving ? 'not-allowed' : 'pointer',
                   transition: 'all .3s',
                 }}>
-                  {copied ? '✅ Copied to clipboard!' : '🐦 Share on X / Twitter'}
+                  {saved ? `✅ Saved to your profile — view at /profile/${username}` : saving ? 'Saving...' : '💾 Save this idea to my profile'}
                 </button>
-                <button onClick={handleReset} style={{
-                  flex: 1, padding: 14,
-                  background: '#f0f0f0', border: '1px solid #e0e0e0',
-                  borderRadius: 14, fontFamily: 'DM Sans, sans-serif',
-                  fontSize: 15, fontWeight: 600, color: '#444444', cursor: 'pointer',
-                }}>
-                  📦 Unbox another idea
-                </button>
+
+                {/* Share + Reset row */}
+                <div style={{ display: 'flex', gap: 10 }}>
+                  <button onClick={() => handleShare(sections)} style={{
+                    flex: 1, padding: 14,
+                    background: copied ? '#16a34a' : 'linear-gradient(135deg,#a855f7,#06b6d4)',
+                    border: 'none', borderRadius: 14, fontFamily: 'Syne, sans-serif',
+                    fontSize: 14, fontWeight: 700, color: '#fff', cursor: 'pointer',
+                    transition: 'all .3s',
+                  }}>
+                    {copied ? '✅ Copied!' : '🐦 Share on X'}
+                  </button>
+                  <button onClick={handleReset} style={{
+                    flex: 1, padding: 14,
+                    background: '#f0f0f0', border: '1px solid #e0e0e0',
+                    borderRadius: 14, fontFamily: 'DM Sans, sans-serif',
+                    fontSize: 14, fontWeight: 600, color: '#444444', cursor: 'pointer',
+                  }}>
+                    📦 Unbox another
+                  </button>
+                </div>
               </div>
             )}
           </div>
