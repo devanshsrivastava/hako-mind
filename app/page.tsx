@@ -92,7 +92,6 @@ export default function Home() {
   const [scoreVisible, setScoreVisible] = useState(false);
   const [displayScore, setDisplayScore] = useState(0);
   const [activeTab, setActiveTab] = useState(0);
-  const [copied, setCopied] = useState(false);
   const [saved, setSaved] = useState(false);
   const [saving, setSaving] = useState(false);
   const [username, setUsername] = useState('');
@@ -203,9 +202,9 @@ export default function Home() {
   function handleShare() {
     if (!parsed) return;
     const total = Math.round(Object.values(parsed.scores).reduce((s, v) => s + v, 0));
-    navigator.clipboard?.writeText(`Just ran my startup idea through the AI War Room on Hako Mind 🔥\n\nScore: ${total}/100\n\nTry it free → hakomind.vercel.app`);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2500);
+    const text = `Just ran my startup idea through the AI War Room on Hako Mind 🔥\n\nScore: ${total}/100\n\nTry it free →`;
+    const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent('https://hakomind.vercel.app')}`;
+    window.open(url, '_blank', 'noopener,noreferrer');
   }
 
   function restart() {
@@ -219,7 +218,6 @@ export default function Home() {
     setScoreVisible(false);
     setDisplayScore(0);
     setSaved(false);
-    setCopied(false);
     setActiveTab(0);
   }
 
@@ -497,10 +495,10 @@ export default function Home() {
               </button>
               <div style={{ display: 'flex', gap: 10 }}>
                 <button onClick={handleShare} style={{
-                  flex: 1, padding: 13, background: copied ? '#16a34a' : 'linear-gradient(135deg,#7c3aed,#0ea5e9)',
+                  flex: 1, padding: 13, background: 'linear-gradient(135deg,#7c3aed,#0ea5e9)',
                   border: 'none', borderRadius: 12, fontFamily: 'DM Sans, sans-serif', fontSize: 14, fontWeight: 600, color: '#fff', cursor: 'pointer', transition: 'all .3s',
                 }}>
-                  {copied ? '✅ Copied!' : '📤 Share on X'}
+                  𝕏 Share on X
                 </button>
                 <button onClick={restart} className="btn-secondary" style={{ flex: 1 }}>
                   ✏️ New idea
