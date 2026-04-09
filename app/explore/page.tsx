@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabase';
+import { getOrCreateUsername } from '../../lib/username';
 
 interface Idea {
   id: string;
@@ -17,10 +18,21 @@ export default function ExplorePage() {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<'all' | '🟢' | '🟡' | '🔴'>('all');
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [username, setUsername] = useState('');
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   useEffect(() => {
+    setUsername(getOrCreateUsername());
     fetchIdeas();
   }, []);
+
+  async function handleDelete(id: string) {
+    if (!confirm('Delete this idea?')) return;
+    setDeletingId(id);
+    await supabase.from('ideas').delete().eq('id', id);
+    setIdeas(prev => prev.filter(i => i.id !== id));
+    setDeletingId(null);
+  }
 
   async function fetchIdeas() {
     const { data } = await supabase
@@ -88,7 +100,7 @@ export default function ExplorePage() {
           {[
             { label: 'Ideas shared', value: stats.total },
             { label: 'Strong ideas', value: stats.strong },
-            { label: 'Avg score', value: `${stats.avgScore}/10` },
+            { label: 'Avg score', value: `${stats.avgScore}/100` },
           ].map((s, i) => (
             <div key={i} style={{ background: '#fff', borderRadius: 16, border: '1px solid #ebebeb', padding: '16px 20px', boxShadow: '0 2px 8px rgba(0,0,0,0.03)' }}>
               <div style={{ fontSize: 24, fontWeight: 800, fontFamily: 'Syne, sans-serif', color: '#0a0a0f' }}>{s.value}</div>
@@ -148,7 +160,7 @@ export default function ExplorePage() {
                       </span>
                       {idea.avg_score > 0 && (
                         <span style={{ background: '#f5f5f7', borderRadius: 100, padding: '3px 10px', fontSize: 12, fontWeight: 700, color: '#555' }}>
-                          ⭐ {idea.avg_score}/10
+                          ⭐ {idea.avg_score}/100
                         </span>
                       )}
                       <a href={`/profile/${idea.username}`} style={{ fontSize: 12, color: '#a855f7', fontWeight: 600, textDecoration: 'none' }}>
@@ -157,9 +169,16 @@ export default function ExplorePage() {
                       <span style={{ fontSize: 12, color: '#ccc', fontWeight: 500 }}>{formatDate(idea.created_at)}</span>
                     </div>
                   </div>
-                  <button onClick={() => setExpandedId(isExpanded ? null : idea.id)} style={{ background: '#f5f5f7', border: 'none', borderRadius: 8, padding: '6px 12px', fontSize: 12, fontWeight: 600, color: '#666', cursor: 'pointer', flexShrink: 0 }}>
-                    {isExpanded ? 'Hide ↑' : 'View ↓'}
-                  </button>
+                  <div style={{ display: 'flex', gap: 6, flexShrink: 0 }}>
+                    {idea.username === username && (
+                      <button onClick={() => handleDelete(idea.id)} disabled={deletingId === idea.id} style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.2)', borderRadius: 8, padding: '6px 10px', fontSize: 12, fontWeight: 600, color: '#dc2626', cursor: 'pointer' }}>
+                        {deletingId === idea.id ? '...' : '🗑'}
+                      </button>
+                    )}
+                    <button onClick={() => setExpandedId(isExpanded ? null : idea.id)} style={{ background: '#f5f5f7', border: 'none', borderRadius: 8, padding: '6px 12px', fontSize: 12, fontWeight: 600, color: '#666', cursor: 'pointer' }}>
+                      {isExpanded ? 'Hide ↑' : 'View ↓'}
+                    </button>
+                  </div>
                 </div>
 
                 {isExpanded && (
