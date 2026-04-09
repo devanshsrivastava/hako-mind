@@ -99,6 +99,7 @@ export default function Home() {
     const sections = [
       { key: 'VERDICT', icon: '🎯', title: 'Verdict', type: 'verdict' },
       { key: 'IDEA SCORE', icon: '📊', title: 'Idea Score', type: 'score' },
+      { key: 'REALITY CHECK', icon: '🔍', title: 'Reality check', type: 'text' },
       { key: 'THE REAL OPPORTUNITY', icon: '💡', title: 'The real opportunity', type: 'text' },
       { key: 'BUILD IT THIS WEEKEND', icon: '🛠️', title: 'Build it this weekend', type: 'text' },
       { key: 'LAUNCH PLAN', icon: '🚀', title: 'Launch plan', type: 'text' },
