@@ -31,20 +31,34 @@ interface ParsedResult {
   tabs: Record<string, string[]>;
 }
 
+const SECTION_KEYS = ['VC_TAKE','PM_TAKE','GROWTH_TAKE','REALITY_TAKE','DEBATE','VC_SCORE','PM_SCORE','GROWTH_SCORE','REALITY_SCORE','SCORE_TAG','MVP','BUILD_STACK','LAUNCH_PLAN','FIRST_USERS'];
+
 function parseResult(raw: string): ParsedResult {
-  function extract(key: string): string {
-    const start = raw.indexOf(key + '\n');
-    if (start === -1) return '';
-    const contentStart = start + key.length + 1;
-    const nextSection = raw.slice(contentStart).search(/\n[A-Z_]+\n/);
-    return nextSection === -1 ? raw.slice(contentStart).trim() : raw.slice(contentStart, contentStart + nextSection).trim();
+  // Build a map of section → content by splitting on known headers
+  const sections: Record<string, string> = {};
+  const lines = raw.split('\n');
+  let currentKey: string | null = null;
+  const buffer: string[] = [];
+
+  for (const line of lines) {
+    // Strip markdown formatting: **KEY**, ### KEY, --- KEY, etc.
+    const trimmed = line.trim().replace(/^[#*\-_>\s]+/, '').replace(/[*_]+$/, '').trim();
+    if (SECTION_KEYS.includes(trimmed)) {
+      if (currentKey) sections[currentKey] = buffer.join('\n').trim();
+      currentKey = trimmed;
+      buffer.length = 0;
+    } else if (currentKey) {
+      buffer.push(line);
+    }
+  }
+  if (currentKey) sections[currentKey] = buffer.join('\n').trim();
+
+  function get(key: string) { return sections[key] || ''; }
+  function getBullets(key: string) {
+    return get(key).split('\n').filter(l => l.trim().startsWith('-')).map(l => l.replace(/^-\s*/, '').trim()).filter(Boolean);
   }
 
-  function extractBullets(key: string): string[] {
-    return extract(key).split('\n').filter(l => l.trim().startsWith('-')).map(l => l.replace(/^-\s*/, '').trim());
-  }
-
-  const debateRaw = extract('DEBATE');
+  const debateRaw = get('DEBATE');
   const debate: DebateMsg[] = debateRaw.split('\n').filter(l => l.includes(':')).map(line => {
     const colonIdx = line.indexOf(':');
     const agent = line.slice(0, colonIdx).replace(/[\[\]]/g, '').trim().toLowerCase();
@@ -53,28 +67,26 @@ function parseResult(raw: string): ParsedResult {
     return { agent: mapped, msg };
   }).filter(d => d.msg.length > 0).slice(0, 6);
 
-  const scoreTag = extract('SCORE_TAG').trim();
-
   return {
     agentViews: {
-      vc: extract('VC_TAKE'),
-      pm: extract('PM_TAKE'),
-      growth: extract('GROWTH_TAKE'),
-      reality: extract('REALITY_TAKE'),
+      vc: get('VC_TAKE'),
+      pm: get('PM_TAKE'),
+      growth: get('GROWTH_TAKE'),
+      reality: get('REALITY_TAKE'),
     },
     debate,
     scores: {
-      vc: parseInt(extract('VC_SCORE')) || 17,
-      pm: parseInt(extract('PM_SCORE')) || 17,
-      growth: parseInt(extract('GROWTH_SCORE')) || 17,
-      reality: parseInt(extract('REALITY_SCORE')) || 17,
+      vc: parseInt(get('VC_SCORE')) || 17,
+      pm: parseInt(get('PM_SCORE')) || 17,
+      growth: parseInt(get('GROWTH_SCORE')) || 17,
+      reality: parseInt(get('REALITY_SCORE')) || 17,
     },
-    scoreTag,
+    scoreTag: get('SCORE_TAG').trim(),
     tabs: {
-      MVP: extractBullets('MVP'),
-      BUILD_STACK: extractBullets('BUILD_STACK'),
-      LAUNCH_PLAN: extractBullets('LAUNCH_PLAN'),
-      FIRST_USERS: extractBullets('FIRST_USERS'),
+      MVP: getBullets('MVP'),
+      BUILD_STACK: getBullets('BUILD_STACK'),
+      LAUNCH_PLAN: getBullets('LAUNCH_PLAN'),
+      FIRST_USERS: getBullets('FIRST_USERS'),
     },
   };
 }

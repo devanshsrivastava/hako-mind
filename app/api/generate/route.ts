@@ -73,6 +73,7 @@ export async function POST(req) {
     });
 
     const result = completion.choices[0].message.content;
+    console.log('=== RAW MODEL OUTPUT ===\n', result);
     return Response.json({ result });
 
   } catch (error) {
