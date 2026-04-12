@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.101.1",
+    "@tavily/core": "^0.7.2",
     "@vercel/analytics": "^2.0.1",
     "ai": "^6.0.146",
     "groq-sdk": "^1.1.2",
