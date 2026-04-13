@@ -192,7 +192,6 @@ export default function Home() {
       setTimeout(() => {
         setVisibleDebate(v => v + 1);
         if (debateRef.current) debateRef.current.scrollTop = debateRef.current.scrollHeight;
-        if (i === parsed.debate.length - 1) setTimeout(showScore, 800);
       }, i * 950);
     });
   }
@@ -204,8 +203,13 @@ export default function Home() {
     const iv = setInterval(() => {
       n += 1;
       setDisplayScore(Math.min(n, parsed.score));
-      if (n >= parsed.score) { clearInterval(iv); setTimeout(() => { setStep('exec'); launchConfetti(); }, 700); }
+      if (n >= parsed.score) clearInterval(iv);
     }, 20);
+  }
+
+  function showExec() {
+    setStep('exec');
+    launchConfetti();
   }
 
   async function handleSave() {
@@ -501,6 +505,11 @@ export default function Home() {
                 </div>
               )}
             </div>
+            {visibleDebate >= (parsed.debate?.length || 0) && (
+              <button className="btn-primary" style={{ marginTop: 20 }} onClick={showScore}>
+                See your score →
+              </button>
+            )}
           </div>
         )}
 
@@ -596,6 +605,9 @@ export default function Home() {
                 </div>
               )}
             </div>
+            <button className="btn-primary" onClick={showExec}>
+              Get execution plan →
+            </button>
           </div>
         )}
 
