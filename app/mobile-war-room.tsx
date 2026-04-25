@@ -68,8 +68,8 @@ interface RefinedIdea { refinedIdea: string; changes: string[]; }
 
 // Shared glass card style
 const glass = {
-  background: 'rgba(255,255,255,.15)',
-  border: '1px solid rgba(255,255,255,.25)',
+  background: 'rgba(255,255,255,.85)',
+  border: '1px solid rgba(0,0,0,.1)',
   borderRadius: 14,
   padding: '12px 14px',
 } as React.CSSProperties;
@@ -83,7 +83,7 @@ const glassBtn = {
   fontFamily: 'Syne, sans-serif',
   fontSize: 14,
   fontWeight: 800,
-  color: '#fff',
+  color: '#1a1a2e',
   cursor: 'pointer',
   width: '100%',
 } as React.CSSProperties;
@@ -290,17 +290,17 @@ export default function MobileWarRoom() {
       <div ref={topRef} style={{ background: gradientBg, minHeight: '100vh', transition: 'background 0.6s ease', fontFamily: 'DM Sans, sans-serif' }}>
 
         {/* Nav */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 16px', background: 'rgba(0,0,0,.12)' }}>
-          <span onClick={restart} style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 16, color: '#fff', cursor: 'pointer' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 16px', background: 'rgba(255,255,255,.3)' }}>
+          <span onClick={restart} style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 16, color: '#1a1a2e', cursor: 'pointer' }}>
             Hako <span style={{ opacity: .65 }}>Mind</span>
           </span>
           <div style={{ display: 'flex', gap: 8 }}>
             {username && (
-              <a href={`/profile/${username}`} style={{ background: 'rgba(255,255,255,.2)', border: '1px solid rgba(255,255,255,.3)', borderRadius: 20, padding: '4px 10px', fontSize: 10, fontWeight: 600, color: '#fff', textDecoration: 'none' }}>
+              <a href={`/profile/${username}`} style={{ background: 'rgba(255,255,255,.2)', border: '1px solid rgba(255,255,255,.3)', borderRadius: 20, padding: '4px 10px', fontSize: 10, fontWeight: 600, color: '#1a1a2e', textDecoration: 'none' }}>
                 👤 Profile
               </a>
             )}
-            <a href="/explore" style={{ background: 'rgba(255,255,255,.2)', border: '1px solid rgba(255,255,255,.3)', borderRadius: 20, padding: '4px 10px', fontSize: 10, fontWeight: 600, color: '#fff', textDecoration: 'none' }}>
+            <a href="/explore" style={{ background: 'rgba(255,255,255,.2)', border: '1px solid rgba(255,255,255,.3)', borderRadius: 20, padding: '4px 10px', fontSize: 10, fontWeight: 600, color: '#1a1a2e', textDecoration: 'none' }}>
               🌍 Explore
             </a>
           </div>
@@ -312,30 +312,30 @@ export default function MobileWarRoom() {
           {step === 'entry' && (
             <div style={{ animation: 'fadeUp .5s ease both' }}>
               <div style={{ textAlign: 'center', padding: '24px 0 20px' }}>
-                <div style={{ display: 'inline-flex', alignItems: 'center', gap: 5, background: 'rgba(255,255,255,.2)', border: '1px solid rgba(255,255,255,.3)', borderRadius: 20, padding: '4px 12px', fontSize: 10, fontWeight: 600, color: '#fff', marginBottom: 14 }}>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: 5, background: 'rgba(255,255,255,.2)', border: '1px solid rgba(255,255,255,.3)', borderRadius: 20, padding: '4px 12px', fontSize: 10, fontWeight: 600, color: '#1a1a2e', marginBottom: 14 }}>
                   <span style={{ width: 5, height: 5, background: '#4ade80', borderRadius: '50%', display: 'inline-block', animation: 'pulse 2s infinite' }} />
                   AI STARTUP WAR ROOM
                 </div>
-                <div style={{ fontFamily: 'Syne, sans-serif', fontSize: 26, fontWeight: 800, color: '#fff', lineHeight: 1.15, marginBottom: 10, letterSpacing: -.5 }}>
+                <div style={{ fontFamily: 'Syne, sans-serif', fontSize: 26, fontWeight: 800, color: '#1a1a2e', lineHeight: 1.15, marginBottom: 10, letterSpacing: -.5 }}>
                   Pitch your idea to<br />4 brutal AI experts
                 </div>
-                <div style={{ fontSize: 12, color: 'rgba(255,255,255,.75)', lineHeight: 1.55 }}>
+                <div style={{ fontSize: 12, color: 'rgba(26,26,46,.75)', lineHeight: 1.55 }}>
                   They research, argue, score and<br />hand you an execution plan
                 </div>
               </div>
 
               <div style={{ ...glass, marginBottom: 12 }}>
-                <div style={{ fontSize: 9, fontWeight: 600, color: 'rgba(255,255,255,.6)', textTransform: 'uppercase', letterSpacing: .8, marginBottom: 8 }}>Your startup idea</div>
+                <div style={{ fontSize: 9, fontWeight: 600, color: 'rgba(26,26,46,.6)', textTransform: 'uppercase', letterSpacing: .8, marginBottom: 8 }}>Your startup idea</div>
                 <textarea
                   value={idea}
                   onChange={e => setIdea(e.target.value)}
                   placeholder="e.g. An AI tool that helps non-technical people build products without coding..."
                   rows={4}
-                  style={{ width: '100%', background: 'rgba(255,255,255,.12)', border: '1px solid rgba(255,255,255,.2)', borderRadius: 10, padding: '10px 12px', fontSize: 13, color: '#fff', resize: 'none', outline: 'none', lineHeight: 1.55, fontFamily: 'DM Sans, sans-serif' }}
+                  style={{ width: '100%', background: 'rgba(255,255,255,.9)', border: '1px solid rgba(255,255,255,.2)', borderRadius: 10, padding: '10px 12px', fontSize: 13, color: '#1a1a2e', resize: 'none', outline: 'none', lineHeight: 1.55, fontFamily: 'DM Sans, sans-serif' }}
                 />
                 <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', margin: '10px 0 12px' }}>
                   {['AI meal planner for busy parents', 'Freelancer payment tracker', 'Newsletter for indie hackers'].map(ex => (
-                    <span key={ex} onClick={() => setIdea(ex)} style={{ background: 'rgba(255,255,255,.15)', border: '1px solid rgba(255,255,255,.25)', borderRadius: 20, padding: '4px 10px', fontSize: 10, color: '#fff', fontWeight: 500, cursor: 'pointer' }}>{ex}</span>
+                    <span key={ex} onClick={() => setIdea(ex)} style={{ background: 'rgba(255,255,255,.15)', border: '1px solid rgba(255,255,255,.25)', borderRadius: 20, padding: '4px 10px', fontSize: 10, color: '#1a1a2e', fontWeight: 500, cursor: 'pointer' }}>{ex}</span>
                   ))}
                 </div>
                 <button onClick={handleEnter} disabled={!idea.trim()} style={{ ...glassBtn, opacity: idea.trim() ? 1 : 0.5 }}>⚡ Enter War Room</button>
@@ -345,8 +345,8 @@ export default function MobileWarRoom() {
                 {[['4', 'AI agents'], ['Free', 'always'], ['2 min', 'to results']].map(([v, l], i, arr) => (
                   <div key={v} style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
                     <div style={{ textAlign: 'center' }}>
-                      <div style={{ fontFamily: 'Syne, sans-serif', fontSize: 16, fontWeight: 800, color: '#fff' }}>{v}</div>
-                      <div style={{ fontSize: 9, color: 'rgba(255,255,255,.6)', fontWeight: 500 }}>{l}</div>
+                      <div style={{ fontFamily: 'Syne, sans-serif', fontSize: 16, fontWeight: 800, color: '#1a1a2e' }}>{v}</div>
+                      <div style={{ fontSize: 9, color: 'rgba(26,26,46,.6)', fontWeight: 500 }}>{l}</div>
                     </div>
                     {i < arr.length - 1 && <div style={{ width: 1, height: 28, background: 'rgba(255,255,255,.2)' }} />}
                   </div>
@@ -360,12 +360,12 @@ export default function MobileWarRoom() {
             <div style={{ paddingTop: 24, animation: 'fadeUp .4s ease both' }}>
               <div style={{ textAlign: 'center', marginBottom: 20 }}>
                 <div style={{ fontSize: 24, marginBottom: 8 }}>🧠</div>
-                <div style={{ fontFamily: 'Syne, sans-serif', fontSize: 18, fontWeight: 800, color: '#fff', marginBottom: 4 }}>Quick clarification</div>
-                <div style={{ fontSize: 11, color: 'rgba(255,255,255,.65)' }}>Helps agents give sharper analysis</div>
+                <div style={{ fontFamily: 'Syne, sans-serif', fontSize: 18, fontWeight: 800, color: '#1a1a2e', marginBottom: 4 }}>Quick clarification</div>
+                <div style={{ fontSize: 11, color: 'rgba(26,26,46,.65)' }}>Helps agents give sharper analysis</div>
               </div>
               <div style={glass}>
-                <div style={{ fontSize: 9, fontWeight: 600, color: 'rgba(255,255,255,.5)', marginBottom: 8 }}>Question {currentQ + 1} of {QUESTIONS.length}</div>
-                <div style={{ fontSize: 15, fontWeight: 700, color: '#fff', marginBottom: 16, lineHeight: 1.4 }}>{QUESTIONS[currentQ].q}</div>
+                <div style={{ fontSize: 9, fontWeight: 600, color: 'rgba(26,26,46,.5)', marginBottom: 8 }}>Question {currentQ + 1} of {QUESTIONS.length}</div>
+                <div style={{ fontSize: 15, fontWeight: 700, color: '#1a1a2e', marginBottom: 16, lineHeight: 1.4 }}>{QUESTIONS[currentQ].q}</div>
                 <input
                   type="text"
                   placeholder={QUESTIONS[currentQ].placeholder}
@@ -373,7 +373,7 @@ export default function MobileWarRoom() {
                   onChange={e => setAnswer(e.target.value)}
                   onKeyDown={e => e.key === 'Enter' && handleNextQ()}
                   autoFocus
-                  style={{ width: '100%', background: 'rgba(255,255,255,.12)', border: '1px solid rgba(255,255,255,.2)', borderRadius: 10, padding: '10px 12px', fontSize: 13, color: '#fff', outline: 'none', fontFamily: 'DM Sans, sans-serif', marginBottom: 12 }}
+                  style={{ width: '100%', background: 'rgba(255,255,255,.9)', border: '1px solid rgba(255,255,255,.2)', borderRadius: 10, padding: '10px 12px', fontSize: 13, color: '#1a1a2e', outline: 'none', fontFamily: 'DM Sans, sans-serif', marginBottom: 12 }}
                 />
                 <div style={{ display: 'flex', gap: 8 }}>
                   <button onClick={handleSkipQ} style={{ ...glassBtnSm, flex: 0.6 }}>Skip</button>
@@ -394,14 +394,14 @@ export default function MobileWarRoom() {
           {step === 'loading' && (
             <div style={{ paddingTop: 24, animation: 'fadeUp .4s ease both' }}>
               <div style={{ textAlign: 'center', marginBottom: 24 }}>
-                <div style={{ fontFamily: 'Syne, sans-serif', fontSize: 18, fontWeight: 800, color: '#fff', marginBottom: 4 }}>⚔️ Assembling War Room...</div>
-                <div style={{ fontSize: 11, color: 'rgba(255,255,255,.65)' }}>Each agent builds on the previous</div>
+                <div style={{ fontFamily: 'Syne, sans-serif', fontSize: 18, fontWeight: 800, color: '#1a1a2e', marginBottom: 4 }}>⚔️ Assembling War Room...</div>
+                <div style={{ fontSize: 11, color: 'rgba(26,26,46,.65)' }}>Each agent builds on the previous</div>
               </div>
 
               {pipelineError ? (
                 <div style={{ ...glass, textAlign: 'center' }}>
-                  <div style={{ fontSize: 14, color: '#fff', fontWeight: 600, marginBottom: 8 }}>Something went wrong</div>
-                  <div style={{ fontSize: 12, color: 'rgba(255,255,255,.6)', marginBottom: 14 }}>{pipelineError}</div>
+                  <div style={{ fontSize: 14, color: '#1a1a2e', fontWeight: 600, marginBottom: 8 }}>Something went wrong</div>
+                  <div style={{ fontSize: 12, color: 'rgba(26,26,46,.6)', marginBottom: 14 }}>{pipelineError}</div>
                   <button onClick={restart} style={glassBtn}>Try again</button>
                 </div>
               ) : (
@@ -419,15 +419,15 @@ export default function MobileWarRoom() {
                           {!isLast && <div style={{ width: 1.5, minHeight: 14, background: status === 'done' ? 'rgba(74,222,128,.5)' : 'rgba(255,255,255,.15)', margin: '2px 0' }} />}
                         </div>
                         <div style={{ paddingTop: 4, paddingBottom: isLast ? 0 : 14, flex: 1 }}>
-                          <div style={{ fontSize: 11, fontWeight: 700, color: status === 'idle' ? 'rgba(255,255,255,.35)' : '#fff', marginBottom: state?.message ? 2 : 0 }}>{s.label}</div>
+                          <div style={{ fontSize: 11, fontWeight: 700, color: status === 'idle' ? 'rgba(26,26,46,.35)' : '#1a1a2e', marginBottom: state?.message ? 2 : 0 }}>{s.label}</div>
                           {state?.message && (
-                            <div style={{ fontSize: 10, color: 'rgba(255,255,255,.6)', lineHeight: 1.4 }}>
-                              {status === 'active' && <span style={{ display: 'inline-block', width: 8, height: 8, border: '1.5px solid rgba(255,255,255,.3)', borderTopColor: '#fff', borderRadius: '50%', animation: 'spin .8s linear infinite', marginRight: 4, verticalAlign: 'middle' }} />}
+                            <div style={{ fontSize: 10, color: 'rgba(26,26,46,.6)', lineHeight: 1.4 }}>
+                              {status === 'active' && <span style={{ display: 'inline-block', width: 8, height: 8, border: '1.5px solid rgba(255,255,255,.3)', borderTopColor: '#1a1a2e', borderRadius: '50%', animation: 'spin .8s linear infinite', marginRight: 4, verticalAlign: 'middle' }} />}
                               {state.message}
                             </div>
                           )}
                           {status === 'done' && state?.preview && (
-                            <div style={{ fontSize: 10, color: 'rgba(255,255,255,.5)', lineHeight: 1.4, marginTop: 2, fontStyle: 'italic' }}>{state.preview}...</div>
+                            <div style={{ fontSize: 10, color: 'rgba(26,26,46,.5)', lineHeight: 1.4, marginTop: 2, fontStyle: 'italic' }}>{state.preview}...</div>
                           )}
                         </div>
                       </div>
@@ -443,8 +443,8 @@ export default function MobileWarRoom() {
             <div style={{ paddingTop: 16, animation: 'fadeUp .5s ease both' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
                 <div>
-                  <div style={{ fontFamily: 'Syne, sans-serif', fontSize: 15, fontWeight: 800, color: '#fff' }}>⚔️ War Room</div>
-                  <div style={{ fontSize: 10, color: 'rgba(255,255,255,.65)', marginTop: 1 }}>{idea.length > 42 ? idea.slice(0, 42) + '...' : idea}</div>
+                  <div style={{ fontFamily: 'Syne, sans-serif', fontSize: 15, fontWeight: 800, color: '#1a1a2e' }}>⚔️ War Room</div>
+                  <div style={{ fontSize: 10, color: 'rgba(26,26,46,.65)', marginTop: 1 }}>{idea.length > 42 ? idea.slice(0, 42) + '...' : idea}</div>
                 </div>
                 {parsed.searchUsed && (
                   <div style={{ background: 'rgba(74,222,128,.2)', border: '1px solid rgba(74,222,128,.4)', borderRadius: 20, padding: '3px 8px', fontSize: 9, fontWeight: 600, color: '#4ade80' }}>🔍 Live data</div>
@@ -458,30 +458,30 @@ export default function MobileWarRoom() {
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
                       <span style={{ fontSize: 16 }}>{agent.icon}</span>
                       {parsed.agentConfidence?.[agent.id] && (
-                        <span style={{ fontSize: 9, fontWeight: 700, color: '#fff', background: 'rgba(255,255,255,.2)', borderRadius: 8, padding: '1px 5px' }}>{parsed.agentConfidence[agent.id]}%</span>
+                        <span style={{ fontSize: 9, fontWeight: 700, color: '#1a1a2e', background: 'rgba(255,255,255,.2)', borderRadius: 8, padding: '1px 5px' }}>{parsed.agentConfidence[agent.id]}%</span>
                       )}
                     </div>
-                    <div style={{ fontFamily: 'Syne, sans-serif', fontSize: 12, fontWeight: 800, color: '#fff', marginBottom: 2 }}>{agent.name}</div>
-                    <div style={{ fontSize: 10, color: 'rgba(255,255,255,.6)', marginBottom: expandedAgent === agent.id ? 10 : 0 }}>{agent.desc}</div>
+                    <div style={{ fontFamily: 'Syne, sans-serif', fontSize: 12, fontWeight: 800, color: '#1a1a2e', marginBottom: 2 }}>{agent.name}</div>
+                    <div style={{ fontSize: 10, color: 'rgba(26,26,46,.6)', marginBottom: expandedAgent === agent.id ? 10 : 0 }}>{agent.desc}</div>
                     {expandedAgent === agent.id && (
                       <div style={{ animation: 'fadeUp .3s ease both' }}>
-                        <div style={{ fontSize: 12, color: '#fff', lineHeight: 1.55, borderTop: '1px solid rgba(255,255,255,.2)', paddingTop: 10, marginTop: 2 }}>
+                        <div style={{ fontSize: 12, color: '#1a1a2e', lineHeight: 1.55, borderTop: '1px solid rgba(255,255,255,.2)', paddingTop: 10, marginTop: 2 }}>
                           {parsed.agents[agent.id]}
                         </div>
                         {agent.id === 'reality' && parsed.sources && parsed.sources.length > 0 && (
                           <div style={{ marginTop: 10 }}>
-                            <div style={{ fontSize: 9, fontWeight: 600, color: 'rgba(255,255,255,.5)', textTransform: 'uppercase', letterSpacing: .8, marginBottom: 6 }}>🔍 Live sources</div>
+                            <div style={{ fontSize: 9, fontWeight: 600, color: 'rgba(26,26,46,.5)', textTransform: 'uppercase', letterSpacing: .8, marginBottom: 6 }}>🔍 Live sources</div>
                             {parsed.sources.slice(0, 3).map((s, i) => (
                               <a key={i} href={s.url} target="_blank" rel="noopener noreferrer" style={{ display: 'block', background: 'rgba(255,255,255,.1)', border: '1px solid rgba(255,255,255,.2)', borderRadius: 8, padding: '6px 10px', marginBottom: 5, textDecoration: 'none' }}>
-                                <div style={{ fontSize: 11, fontWeight: 600, color: '#fff', marginBottom: 1 }}>{s.title.slice(0, 36)}...</div>
-                                <div style={{ fontSize: 10, color: 'rgba(255,255,255,.5)' }}>{s.url.replace('https://', '').split('/')[0]}</div>
+                                <div style={{ fontSize: 11, fontWeight: 600, color: '#1a1a2e', marginBottom: 1 }}>{s.title.slice(0, 36)}...</div>
+                                <div style={{ fontSize: 10, color: 'rgba(26,26,46,.5)' }}>{s.url.replace('https://', '').split('/')[0]}</div>
                               </a>
                             ))}
                           </div>
                         )}
                       </div>
                     )}
-                    <div style={{ fontSize: 10, color: 'rgba(255,255,255,.7)', fontWeight: 600, marginTop: expandedAgent === agent.id ? 8 : 0 }}>
+                    <div style={{ fontSize: 10, color: 'rgba(26,26,46,.7)', fontWeight: 600, marginTop: expandedAgent === agent.id ? 8 : 0 }}>
                       {expandedAgent === agent.id ? 'Collapse ↑' : 'Tap to read →'}
                     </div>
                   </div>
@@ -495,8 +495,8 @@ export default function MobileWarRoom() {
           {/* DEBATE */}
           {step === 'debate' && parsed && (
             <div style={{ paddingTop: 16, animation: 'fadeUp .5s ease both' }}>
-              <div style={{ fontFamily: 'Syne, sans-serif', fontSize: 15, fontWeight: 800, color: '#fff', marginBottom: 4 }}>⚔️ Agent debate</div>
-              <div style={{ fontSize: 10, color: 'rgba(255,255,255,.65)', marginBottom: 14 }}>Each agent responds to what the others said</div>
+              <div style={{ fontFamily: 'Syne, sans-serif', fontSize: 15, fontWeight: 800, color: '#1a1a2e', marginBottom: 4 }}>⚔️ Agent debate</div>
+              <div style={{ fontSize: 10, color: 'rgba(26,26,46,.65)', marginBottom: 14 }}>Each agent responds to what the others said</div>
 
               <div ref={debateRef} style={{ display: 'flex', flexDirection: 'column', gap: 8, maxHeight: 380, overflowY: 'auto', marginBottom: 14 }}>
                 {parsed.debate.slice(0, visibleDebate).map((msg, i) => {
@@ -504,9 +504,9 @@ export default function MobileWarRoom() {
                   return (
                     <div key={i} style={{ display: 'flex', gap: 8, animation: 'fadeUp .3s ease both' }}>
                       <div style={{ width: 26, height: 26, borderRadius: '50%', background: 'rgba(255,255,255,.2)', border: '1px solid rgba(255,255,255,.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, flexShrink: 0 }}>{agent.icon}</div>
-                      <div style={{ background: 'rgba(255,255,255,.15)', border: '1px solid rgba(255,255,255,.25)', borderRadius: 12, borderTopLeftRadius: 3, padding: '8px 10px', flex: 1 }}>
-                        <div style={{ fontSize: 9, fontWeight: 700, color: 'rgba(255,255,255,.7)', marginBottom: 3, textTransform: 'uppercase', letterSpacing: .5 }}>{agent.name}</div>
-                        <div style={{ fontSize: 12, color: '#fff', lineHeight: 1.5 }}>{msg.message}</div>
+                      <div style={{ background: 'rgba(255,255,255,.85)', border: '1px solid rgba(0,0,0,.1)', borderRadius: 12, borderTopLeftRadius: 3, padding: '8px 10px', flex: 1 }}>
+                        <div style={{ fontSize: 9, fontWeight: 700, color: 'rgba(26,26,46,.7)', marginBottom: 3, textTransform: 'uppercase', letterSpacing: .5 }}>{agent.name}</div>
+                        <div style={{ fontSize: 12, color: '#1a1a2e', lineHeight: 1.5 }}>{msg.message}</div>
                       </div>
                     </div>
                   );
@@ -522,7 +522,7 @@ export default function MobileWarRoom() {
 
               {debateComplete && (
                 <div style={{ animation: 'fadeUp .4s ease both' }}>
-                  <div style={{ ...glass, marginBottom: 10, fontSize: 12, color: 'rgba(255,255,255,.8)' }}>
+                  <div style={{ ...glass, marginBottom: 10, fontSize: 12, color: 'rgba(26,26,46,.8)' }}>
                     💬 The agents have weighed in. Ready to see your score?
                   </div>
                   <button onClick={showScore} style={glassBtn}>📊 See my score →</button>
@@ -535,10 +535,10 @@ export default function MobileWarRoom() {
           {step === 'score' && parsed && (
             <div style={{ paddingTop: 16, animation: 'fadeUp .5s ease both' }}>
               <div style={{ textAlign: 'center', marginBottom: 16 }}>
-                <div style={{ fontSize: 9, fontWeight: 600, color: 'rgba(255,255,255,.7)', textTransform: 'uppercase', letterSpacing: .8, marginBottom: 8 }}>War Room score</div>
-                <div style={{ fontFamily: 'Syne, sans-serif', fontSize: 72, fontWeight: 800, color: '#fff', lineHeight: 1, animation: 'countUp .6s ease both' }}>{displayScore}</div>
-                <div style={{ fontSize: 14, color: 'rgba(255,255,255,.6)', marginBottom: 10 }}>/100</div>
-                <div style={{ display: 'inline-block', background: 'rgba(255,255,255,.25)', border: '1px solid rgba(255,255,255,.4)', borderRadius: 20, padding: '5px 14px', fontSize: 12, fontWeight: 700, color: '#fff' }}>
+                <div style={{ fontSize: 9, fontWeight: 600, color: 'rgba(26,26,46,.7)', textTransform: 'uppercase', letterSpacing: .8, marginBottom: 8 }}>War Room score</div>
+                <div style={{ fontFamily: 'Syne, sans-serif', fontSize: 72, fontWeight: 800, color: '#1a1a2e', lineHeight: 1, animation: 'countUp .6s ease both' }}>{displayScore}</div>
+                <div style={{ fontSize: 14, color: 'rgba(26,26,46,.6)', marginBottom: 10 }}>/100</div>
+                <div style={{ display: 'inline-block', background: 'rgba(255,255,255,.25)', border: '1px solid rgba(255,255,255,.4)', borderRadius: 20, padding: '5px 14px', fontSize: 12, fontWeight: 700, color: '#1a1a2e' }}>
                   {scoreTagLabel}
                 </div>
               </div>
@@ -551,10 +551,10 @@ export default function MobileWarRoom() {
                     <div key={item.key} style={{ ...glass, padding: '9px 10px' }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 3 }}>
                         <span style={{ fontSize: 12 }}>{meta?.icon}</span>
-                        <span style={{ fontSize: 9, fontWeight: 700, color: '#fff', opacity: .8 }}>{item.earned}/{item.max}</span>
+                        <span style={{ fontSize: 9, fontWeight: 700, color: '#1a1a2e', opacity: .8 }}>{item.earned}/{item.max}</span>
                       </div>
-                      <div style={{ fontSize: 9, color: 'rgba(255,255,255,.55)', textTransform: 'uppercase', letterSpacing: .4, marginBottom: 1 }}>{meta?.label}</div>
-                      <div style={{ fontSize: 11, fontWeight: 700, color: '#fff' }}>{item.value.charAt(0).toUpperCase() + item.value.slice(1)}</div>
+                      <div style={{ fontSize: 9, color: 'rgba(26,26,46,.55)', textTransform: 'uppercase', letterSpacing: .4, marginBottom: 1 }}>{meta?.label}</div>
+                      <div style={{ fontSize: 11, fontWeight: 700, color: '#1a1a2e' }}>{item.value.charAt(0).toUpperCase() + item.value.slice(1)}</div>
                     </div>
                   );
                 })}
@@ -562,7 +562,7 @@ export default function MobileWarRoom() {
 
               {/* Key insight */}
               {parsed.keyInsight && (
-                <div style={{ ...glass, marginBottom: 10, fontSize: 12, color: '#fff', lineHeight: 1.55 }}>
+                <div style={{ ...glass, marginBottom: 10, fontSize: 12, color: '#1a1a2e', lineHeight: 1.55 }}>
                   💡 <strong>Key insight:</strong> {parsed.keyInsight}
                 </div>
               )}
@@ -570,11 +570,11 @@ export default function MobileWarRoom() {
               {/* Improvements */}
               {parsed.improvements?.length > 0 && (
                 <div style={{ ...glass, marginBottom: 12 }}>
-                  <div style={{ fontSize: 11, fontWeight: 700, color: '#fff', marginBottom: 10 }}>🎯 Improve your score</div>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: '#1a1a2e', marginBottom: 10 }}>🎯 Improve your score</div>
                   {parsed.improvements.map((imp, i) => (
                     <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 10, marginBottom: 8 }}>
-                      <div style={{ fontSize: 11, color: 'rgba(255,255,255,.85)', lineHeight: 1.4, flex: 1 }}>{imp.action}</div>
-                      <div style={{ background: 'rgba(255,255,255,.25)', borderRadius: 6, padding: '2px 7px', fontSize: 10, fontWeight: 700, color: '#fff', flexShrink: 0 }}>+{imp.points}pts</div>
+                      <div style={{ fontSize: 11, color: 'rgba(26,26,46,.85)', lineHeight: 1.4, flex: 1 }}>{imp.action}</div>
+                      <div style={{ background: 'rgba(255,255,255,.25)', borderRadius: 6, padding: '2px 7px', fontSize: 10, fontWeight: 700, color: '#1a1a2e', flexShrink: 0 }}>+{imp.points}pts</div>
                     </div>
                   ))}
                 </div>
@@ -594,21 +594,21 @@ export default function MobileWarRoom() {
 
               {/* Score strip */}
               <div style={{ ...glass, display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
-                <div style={{ fontFamily: 'Syne, sans-serif', fontSize: 26, fontWeight: 800, color: '#fff' }}>🔥 {parsed.score}</div>
+                <div style={{ fontFamily: 'Syne, sans-serif', fontSize: 26, fontWeight: 800, color: '#1a1a2e' }}>🔥 {parsed.score}</div>
                 <div style={{ width: 1, height: 24, background: 'rgba(255,255,255,.25)' }} />
-                <div style={{ fontSize: 11, fontWeight: 700, color: '#fff' }}>{scoreTagLabel}</div>
+                <div style={{ fontSize: 11, fontWeight: 700, color: '#1a1a2e' }}>{scoreTagLabel}</div>
               </div>
 
               {/* Agent summaries */}
-              <div style={{ fontSize: 10, fontWeight: 600, color: 'rgba(255,255,255,.6)', textTransform: 'uppercase', letterSpacing: .8, marginBottom: 8 }}>Expert summaries</div>
+              <div style={{ fontSize: 10, fontWeight: 600, color: 'rgba(26,26,46,.6)', textTransform: 'uppercase', letterSpacing: .8, marginBottom: 8 }}>Expert summaries</div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 7, marginBottom: 14 }}>
                 {AGENTS.map(agent => (
                   <div key={agent.id} style={{ ...glass, borderLeft: '3px solid rgba(255,255,255,.5)', padding: '10px 12px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 5 }}>
                       <span style={{ fontSize: 13 }}>{agent.icon}</span>
-                      <span style={{ fontFamily: 'Syne, sans-serif', fontSize: 11, fontWeight: 800, color: '#fff' }}>{agent.name}</span>
+                      <span style={{ fontFamily: 'Syne, sans-serif', fontSize: 11, fontWeight: 800, color: '#1a1a2e' }}>{agent.name}</span>
                     </div>
-                    <div style={{ fontSize: 11, color: 'rgba(255,255,255,.75)', lineHeight: 1.45 }}>
+                    <div style={{ fontSize: 11, color: 'rgba(26,26,46,.75)', lineHeight: 1.45 }}>
                       {parsed.agents[agent.id]?.split('. ').slice(0, 2).join('. ') + '.'}
                     </div>
                   </div>
@@ -618,11 +618,11 @@ export default function MobileWarRoom() {
               {/* Improvements + refine */}
               {parsed.improvements?.length > 0 && (
                 <div style={{ ...glass, marginBottom: 14 }}>
-                  <div style={{ fontSize: 11, fontWeight: 700, color: '#fff', marginBottom: 10 }}>🎯 How to improve your score</div>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: '#1a1a2e', marginBottom: 10 }}>🎯 How to improve your score</div>
                   {parsed.improvements.map((imp, i) => (
                     <div key={i} style={{ display: 'flex', justifyContent: 'space-between', gap: 8, marginBottom: 8 }}>
-                      <div style={{ fontSize: 11, color: 'rgba(255,255,255,.8)', lineHeight: 1.4, flex: 1 }}>{imp.action}</div>
-                      <div style={{ background: 'rgba(255,255,255,.2)', borderRadius: 6, padding: '2px 7px', fontSize: 10, fontWeight: 700, color: '#fff', flexShrink: 0 }}>+{imp.points}pts</div>
+                      <div style={{ fontSize: 11, color: 'rgba(26,26,46,.8)', lineHeight: 1.4, flex: 1 }}>{imp.action}</div>
+                      <div style={{ background: 'rgba(255,255,255,.2)', borderRadius: 6, padding: '2px 7px', fontSize: 10, fontWeight: 700, color: '#1a1a2e', flexShrink: 0 }}>+{imp.points}pts</div>
                     </div>
                   ))}
 
@@ -634,13 +634,13 @@ export default function MobileWarRoom() {
 
                   {showRefined && refined && (
                     <div style={{ animation: 'fadeUp .4s ease both', marginTop: 10 }}>
-                      <div style={{ background: 'rgba(255,255,255,.12)', border: '1px solid rgba(255,255,255,.25)', borderRadius: 10, padding: '10px 12px', marginBottom: 8 }}>
-                        <div style={{ fontSize: 9, fontWeight: 600, color: 'rgba(255,255,255,.6)', textTransform: 'uppercase', letterSpacing: .8, marginBottom: 6 }}>✨ Improved idea</div>
-                        <div style={{ fontSize: 12, color: '#fff', lineHeight: 1.55, marginBottom: 8 }}>{refined.refinedIdea}</div>
+                      <div style={{ background: 'rgba(255,255,255,.12)', border: '1px solid rgba(0,0,0,.1)', borderRadius: 10, padding: '10px 12px', marginBottom: 8 }}>
+                        <div style={{ fontSize: 9, fontWeight: 600, color: 'rgba(26,26,46,.6)', textTransform: 'uppercase', letterSpacing: .8, marginBottom: 6 }}>✨ Improved idea</div>
+                        <div style={{ fontSize: 12, color: '#1a1a2e', lineHeight: 1.55, marginBottom: 8 }}>{refined.refinedIdea}</div>
                         {refined.changes?.map((c, i) => (
                           <div key={i} style={{ display: 'flex', gap: 5, marginBottom: 3 }}>
-                            <span style={{ color: 'rgba(255,255,255,.7)', fontSize: 10 }}>✓</span>
-                            <span style={{ fontSize: 10, color: 'rgba(255,255,255,.65)', lineHeight: 1.4 }}>{c}</span>
+                            <span style={{ color: 'rgba(26,26,46,.7)', fontSize: 10 }}>✓</span>
+                            <span style={{ fontSize: 10, color: 'rgba(26,26,46,.65)', lineHeight: 1.4 }}>{c}</span>
                           </div>
                         ))}
                       </div>
@@ -657,15 +657,15 @@ export default function MobileWarRoom() {
               <div style={{ ...glass, marginBottom: 14, padding: 0, overflow: 'hidden' }}>
                 <div style={{ display: 'flex', borderBottom: '1px solid rgba(255,255,255,.2)' }}>
                   {TABS.map((tab, i) => (
-                    <button key={tab} onClick={() => setActiveTab(i)} style={{ flex: 1, padding: '9px 4px', background: 'transparent', border: 'none', borderBottom: `2px solid ${activeTab === i ? '#fff' : 'transparent'}`, fontSize: 11, fontWeight: 600, color: activeTab === i ? '#fff' : 'rgba(255,255,255,.45)', cursor: 'pointer', fontFamily: 'DM Sans, sans-serif' }}>{tab}</button>
+                    <button key={tab} onClick={() => setActiveTab(i)} style={{ flex: 1, padding: '9px 4px', background: 'transparent', border: 'none', borderBottom: `2px solid ${activeTab === i ? '#1a1a2e' : 'transparent'}`, fontSize: 11, fontWeight: 600, color: activeTab === i ? '#1a1a2e' : 'rgba(26,26,46,.45)', cursor: 'pointer', fontFamily: 'DM Sans, sans-serif' }}>{tab}</button>
                   ))}
                 </div>
                 <div style={{ padding: '12px 14px' }}>
                   <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 8 }}>
                     {(parsed.execution?.[TAB_KEYS[activeTab]] || []).map((item, i) => (
                       <li key={i} style={{ display: 'flex', gap: 7, alignItems: 'flex-start' }}>
-                        <span style={{ color: 'rgba(255,255,255,.7)', fontSize: 12, flexShrink: 0 }}>▸</span>
-                        <span style={{ fontSize: 12, color: 'rgba(255,255,255,.9)', lineHeight: 1.5 }}>{item}</span>
+                        <span style={{ color: 'rgba(26,26,46,.7)', fontSize: 12, flexShrink: 0 }}>▸</span>
+                        <span style={{ fontSize: 12, color: 'rgba(26,26,46,.9)', lineHeight: 1.5 }}>{item}</span>
                       </li>
                     ))}
                   </ul>
